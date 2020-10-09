@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+  font-family: "Inter var", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-size: cover;
+  background-position: center top;
+  background-color: rgb(44, 47, 54);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-feature-settings: "ss01", "ss02", "cv01", "cv03";
+  font-variant: no-common-ligatures no-discretionary-ligatures no-historical-ligatures no-contextual;
+}
+
+.sfi-container {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.sfi-brand-title {
+  font-weight: 600;
+  font-size: 86px;
+}
+
+.sfi-bg-color-linear {
+  background: -webkit-linear-gradient(to right, #28E58F , #3B8BFF); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(to right, #28E58F, #3B8BFF); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(to right, #28E58F, #3B8BFF); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #28E58F, #3B8BFF); /* Standard */
+}
+
+.sfi-bg-color-linear-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.sfi-text-height-2 {
+  line-height: 32px;
+}
+
+.btn-primary {
+  background-color: #3B8BFF;
+  color: #3B8BFF;
+  border-color: #3B8BFF;
+}
+
+.btn-outline-primary {
+  color: #3B8BFF;
+  border-color: #3B8BFF;
+}
+
+.btn-primary:active, .btn-primary:hover, .btn-outline-primary:active, .btn-outline-primary:hover{
+  color: #fff;
+  background-color: #3B8BFF;
+  border-color: #3B8BFF;
+}
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+  color: #3B8BFF;
+  background-color: transparent;
+}
+
+.btn-success {
+  background-color: #28E58F;
+  color: #28E58F;
+  border-color: #28E58F;
+}
+
+.btn-outline-success {
+  color: #28E58F;
+  border-color: #28E58F;
+}
+
+.btn-success:active, .btn-success:hover, .btn-outline-success:active, .btn-outline-success:hover{
+  color: #fff;
+  background-color: #28E58F;
+  border-color: #28E58F;
+}
+
+a {
+  color: #3B8BFF;
+}
