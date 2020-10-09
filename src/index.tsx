@@ -7,7 +7,7 @@ import App from './pages/app'
 
 ReactDOM.render(
   <React.StrictMode>
-    <UseWalletProvider chainId={3}>
+    <UseWalletProvider chainId={1}>
       <App />
     </UseWalletProvider>
   </React.StrictMode>,
