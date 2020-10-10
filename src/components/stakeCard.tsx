@@ -16,12 +16,12 @@ export default function StakeCard({pool}) {
       <Card.Body>
         <Card.Title className="text-white-75 font-weight-bold">
             <Row className="sfi-text-height-2">
-              <Col lg="6">
+              <Col xs="6" lg="6">
                 <PoolLogo logos={pool?.logos ? pool.logos : []} />
                 {' '}
                 <span className="sfi-bg-color-linear sfi-bg-color-linear-text">{pool?.name ? pool.name : ''}</span>
               </Col>
-              <Col lg="6" className="text-right">
+              <Col xs="6" lg="6" className="text-right">
                 <Button href={"/#/stake/" + pool.id} variant="outline-light" size="sm">Deposit</Button>
               </Col>
             </Row>
