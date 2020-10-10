@@ -16,19 +16,19 @@ export default function StakeCard({pool}) {
       <Card.Body>
         <Card.Title className="text-white-75 font-weight-bold">
             <Row className="sfi-text-height-2">
-              <Col xs="6" lg="6">
+              <Col xs="6">
                 <PoolLogo logos={pool?.logos ? pool.logos : []} />
                 {' '}
                 <span className="sfi-bg-color-linear sfi-bg-color-linear-text">{pool?.name ? pool.name : ''}</span>
               </Col>
-              <Col xs="6" lg="6" className="text-right">
+              <Col xs="6" className="text-right">
                 <Button href={"/#/stake/" + pool.id} variant="outline-light" size="sm">Deposit</Button>
               </Col>
             </Row>
         </Card.Title>
         <Row className="text-white-70 mt-2">
-          <Col lg="6">Total staked</Col>
-          <Col lg="6" className="text-right">
+          <Col xs="6">Total staked</Col>
+          <Col xs="6" className="text-right">
             {pool?.totalStaked ?
               <>
                 <span className="h5">{getFullDisplayBalance(pool?.totalStaked)}</span>
@@ -40,8 +40,8 @@ export default function StakeCard({pool}) {
           </Col>
         </Row>
         <Row className="text-white-70 mt-2">
-          <Col lg="6">Pool rate</Col>
-          <Col lg="6" className="text-right">
+          <Col xs="6">Pool rate</Col>
+          <Col xs="6" className="text-right">
             {pool?.poolRate ?
               <>
                 <span className="h5">{getFullDisplayBalance(pool?.poolRate)}</span>
@@ -53,8 +53,8 @@ export default function StakeCard({pool}) {
           </Col>
         </Row>
         <Row className="text-white-70 mt-2">
-          <Col lg="6" className="small">Halving time</Col>
-          <Col lg="6" className="text-right">
+          <Col xs="6" className="small">Halving time</Col>
+          <Col xs="6" className="text-right">
             {pool?.halvingTime ?
               <span className="small">{getFormattedDate(pool?.halvingTime)}</span> :
               <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
