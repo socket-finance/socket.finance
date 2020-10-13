@@ -26,10 +26,10 @@ export default function About() {
             <Card.Body>
               <Card.Title className="h1 sfi-bg-color-linear sfi-bg-color-linear-text font-weight-bold">About Socket Finance</Card.Title>
               <Card.Text>
-              Socket Finance is an experiment in DeFi world. It is a suite of decentralized finance (DeFi) products focused on creating a simple way to generate returns for our users. Future projects will involved in Vaults, Swap, NFT, etc.
+              Socket Finance is an experiment in DeFi world. It is a suite of decentralized finance (DeFi) products focused on creating a simple way to generate returns for our users. Future projects will involve Vaults, Swap, NFT, etc.
               </Card.Text>
               <Card.Text>
-              Socket Finance wont' be another fork, we will focus on developing products by ourself. Meanwhile your voices and requirements will decide our roadmap. Join us on <a href="https://discord.gg/qEYfJK2">Discord</a> and <a href="https://t.me/SocketFinanceOfficial">Telegram</a> for duscussing.
+              Socket Finance won't be another fork, we will focus on developing products by ourself. Meanwhile your voices and requirements will decide our roadmap. Join us on <a href="https://discord.gg/qEYfJK2">Discord</a> and <a href="https://t.me/SocketFinanceOfficial">Telegram</a> for discussing.
               </Card.Text>
             </Card.Body>
           </Card>
