@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
 
 export default function About() {
   return (
@@ -31,6 +32,18 @@ export default function About() {
               <Card.Text>
               Socket Finance won't be another fork, we will focus on developing products by ourself. Meanwhile your voices and requirements will decide our roadmap. Join us on <a href="https://discord.gg/qEYfJK2">Discord</a> and <a href="https://t.me/SocketFinanceOfficial">Telegram</a> for discussing.
               </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+        
+      </Row>
+
+      <Row className="justify-content-md-center mt-5">
+        <Col lg="8">
+          <Card border="dark" bg={"transparent"} className="text-white-50">
+            <Card.Body>
+              <Card.Title className="h1 sfi-bg-color-linear sfi-bg-color-linear-text font-weight-bold">Blueprint</Card.Title>
+              <Image src="blueprint.svg" className="border border-0 bg-transparent" thumbnail />
             </Card.Body>
           </Card>
         </Col>
