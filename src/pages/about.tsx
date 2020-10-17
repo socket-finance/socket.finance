@@ -57,6 +57,9 @@ export default function About() {
               <Card.Text>
               SFI is the goverence token of Socket.Finance. No presale. No premine. 
               </Card.Text>
+              <Card.Text>
+              Token Contract: <a href="https://etherscan.io/token/0x1E15abF152067e9Fe4A48bbf094A71f5bB16325D">0x1E15abF152067e9Fe4A48bbf094A71f5bB16325D</a>
+              </Card.Text>
               <Card.Text className="font-weight-bold">
               Total Supply: 31,500
               </Card.Text>
@@ -83,9 +86,10 @@ export default function About() {
                 There are 3 pools for staking and receiving SFI.
               </Card.Text>
               <Card.Text className="font-weight-bold">
-                WETH Pool:
+                WETH Pool: 
               </Card.Text>
               <div>
+                <li>Contract: <a href="https://etherscan.io/address/0x52fac8e7a139127a734a208fb288e5d3604ba0fd">0x52fac8e7a139127a734a208fb288e5d3604ba0fd</a> </li>
                 <li>Stake WETH for SFI </li>
                 <li>Total reward: 6,000</li>
                 <li>First week: 3,000</li>
@@ -96,6 +100,7 @@ export default function About() {
                 SFI Pool:
               </Card.Text>
               <div>
+                <li>Contract: <a href="https://etherscan.io/address/0xf1145745ad0abfc7587cfe3b4d1c498be85446c7">0xf1145745ad0abfc7587cfe3b4d1c498be85446c7</a> </li>
                 <li>Stake SFI for SFI </li>
                 <li>Total reward: 6,000</li>
                 <li>First week: 3,000</li>
