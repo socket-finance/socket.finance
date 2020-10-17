@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <Nav className="justify-content-center">
       <Nav.Item>
-        <Nav.Link href="https://twitter.com/SocketFinance">Twiiter</Nav.Link>
+        <Nav.Link href="https://twitter.com/SocketFinance">Twitter</Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link href="https://github.com/socket-finance">Github</Nav.Link>
