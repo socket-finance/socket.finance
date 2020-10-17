@@ -21,7 +21,7 @@ export default function Stake() {
                 Deposit your WETH / SFI / Liquidity Provider tokens to receive SFI.
               </Card.Text>
               <Card.Text className="text-white-70 small">
-                SFI is the goverence token of Socket.Finance, hold SFI to receive dividens from future projects such as vault, lending, swap, NFT etc.
+                SFI is the goverence token of Socket.Finance, hold SFI to receive dividends from future projects such as vault, lending, swap, NFT etc.
               </Card.Text>
             </Card.Body>
           </Card>
