@@ -105,17 +105,18 @@ export default function About() {
                 <li>Total reward: 6,000</li>
                 <li>First week: 3,000</li>
                 <li>Halving every week</li>
-                <span>Buy SFI on Uniswap: <a href="#">coming soon</a></span>
+                <span>Buy SFI on Uniswap: <a href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x1e15abf152067e9fe4a48bbf094a71f5bb16325d">ETH-SFI Pair</a></span>
               </div>
               <Card.Text className="mt-4 font-weight-bold">
                 ETH-SFI Pool:
               </Card.Text>
               <div>
+                <li>Contract: <a href="https://etherscan.io/address/0x42177e8b737D172Fe58C7672dc0fc5b784Db62d7">0x42177e8b737D172Fe58C7672dc0fc5b784Db62d7</a> </li>
                 <li>Stake ETH-SFI LP token for SFI </li>
                 <li>Total reward: 18,000</li>
                 <li>First week: 9,000</li>
                 <li>Halving every week</li>
-                <span>Add liquidity for ETH-SFI on Uniswap: <a href="#">coming soon</a></span>
+                <span>Add liquidity for ETH-SFI on Uniswap: <a href="https://app.uniswap.org/#/add/0x1e15abf152067e9fe4a48bbf094a71f5bb16325d/ETH">ETH-SFI Pair</a></span>
               </div>
             </Card.Body>
           </Card>
