@@ -5,10 +5,12 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import StakeCard from '../components/stakeCard'
 import { usePoolStats } from '../hooks/usePoolStats'
+import { usePoolAPY } from '../hooks/usePoolAPY'
 
 export default function Stake() {
 
   const pools = usePoolStats()
+  const poolAPY = usePoolAPY()
 
   return (
     <Container className="sfi-container">
@@ -48,7 +50,7 @@ export default function Stake() {
         return (
           <Row className="justify-content-md-center pt-4">
             <Col xs lg="6">
-              <StakeCard pool={pool} />
+              <StakeCard pool={pool} poolAPY={poolAPY ? (poolAPY[pool?.id] ? poolAPY[pool?.id] : 0) : 0} />
             </Col>
           </Row>
         )})

@@ -10,7 +10,7 @@ import {
 } from '../utils'
 import PoolLogo from './poolLogo'
 
-export default function StakeCard({pool}) {
+export default function StakeCard({pool, poolAPY}) {
   return (
     <Card text={"white"} className="rounded-lg border-dark"  bg={"transparent"}> 
       <Card.Body>
@@ -47,6 +47,19 @@ export default function StakeCard({pool}) {
                 <span className="h5">{getFullDisplayBalance(pool?.poolRate)}</span>
                 <span> </span>
                 <span className="small">{pool.poolRateUnit}</span>
+              </> :
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+            }
+          </Col>
+        </Row>
+        <Row className="text-white-70 mt-2">
+          <Col xs="6">APY</Col>
+          <Col xs="6" className="text-right">
+            {poolAPY ?
+              <>
+                <span className="h5">{Number(((poolAPY * 100).toFixed(2))).toLocaleString()}</span>
+                <span> </span>
+                <span className="small">%</span>
               </> :
               <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
             }

@@ -6,6 +6,14 @@ import { ethers } from "ethers"
 import BN from "bignumber.js"
 import ERC20ABI from '../constants/abi/ERC20.json'
 import POOLABI from '../constants/abi/stakePool.json'
+import {
+  SFI_TOKEN_ADDRESS,
+  WETH_TOKEN_ADDRESS,
+  ETH_SFI_UNI_LP_TOKEN_ADDRESS,
+  WETH_POOL_ADDRESS,
+  SFI_POOL_ADDRESS,
+  ETH_SFI_UNI_LP_POOL_ADDRESS
+} from '../constants/tokenAddresses'
 
 export const getERC20Contract = (provider: provider, address: string) => {
   const web3 = new Web3(provider)
@@ -194,6 +202,57 @@ export const exit = async (
       })
   } catch (e) {
     console.log(e)
+  }
+}
+
+const getWeeklyRewards = async function (synthContract) {
+  const rewardRate = await synthContract.methods.initreward().call()
+  return bnToDec(new BN(rewardRate))
+}
+
+interface PoolAPY {
+  ethSFIPoolAPY: number | null
+  wethPoolAPY: number | null
+  sfiPoolAPY: number | null
+}
+
+export const getPoolAPY = async (provider: provider): Promise<PoolAPY | null> => {
+  if (provider) {
+    try {
+      const ethSFIPoolContract = getPoolContract(provider, ETH_SFI_UNI_LP_POOL_ADDRESS)
+      const sfiPoolContract = getPoolContract(provider, SFI_POOL_ADDRESS)
+      const wethPoolContract = getPoolContract(provider, WETH_POOL_ADDRESS)
+
+      const ethSFIPoolRate = await getWeeklyRewards(ethSFIPoolContract)
+      const sfiPoolRate = await getWeeklyRewards(sfiPoolContract)
+      const wethPoolRate = await getWeeklyRewards(wethPoolContract)
+
+      const sfiTokenContract = getERC20Contract(provider, SFI_TOKEN_ADDRESS)
+      const wethContract = getERC20Contract(provider, WETH_TOKEN_ADDRESS)
+      const ethSFILPContract = getERC20Contract(provider, ETH_SFI_UNI_LP_TOKEN_ADDRESS)
+
+      const totalSFIInUniswap = (await sfiTokenContract.methods.balanceOf(ETH_SFI_UNI_LP_TOKEN_ADDRESS).call()) / 1e18
+      const totalWETHInUniswap = (await wethContract.methods.balanceOf(ETH_SFI_UNI_LP_TOKEN_ADDRESS).call()) / 1e18
+      const totalETHSFILPStaked = (await ethSFIPoolContract.methods.totalSupply().call()) / 1e18
+      const totalETHSFILP = (await ethSFILPContract.methods.totalSupply().call()) / 1e18
+      const totalWETHStaked = (await wethPoolContract.methods.totalSupply().call()) / 1e18
+      const totalSFIStaked = (await sfiPoolContract.methods.totalSupply().call()) / 1e18
+
+      const ethSFIPoolAPY = ethSFIPoolRate / 7.0 * 365.0 / (totalETHSFILPStaked / totalETHSFILP * totalSFIInUniswap * 2)
+      const wethPoolAPY = wethPoolRate / 7.0 * 365 / (totalWETHStaked * totalSFIInUniswap / totalWETHInUniswap)
+      const sfiPoolAPY = sfiPoolRate / 7.0 * 365 / (totalSFIStaked)
+
+      return {
+        ethSFIPoolAPY,
+        wethPoolAPY,
+        sfiPoolAPY
+      }
+    } catch (e) {
+      console.log(e)
+      return null
+    }
+  } else {
+    return null
   }
 }
 
