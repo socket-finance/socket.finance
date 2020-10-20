@@ -55,7 +55,7 @@ export default function About() {
             <Card.Body>
               <Card.Title className="h1 sfi-bg-color-linear sfi-bg-color-linear-text font-weight-bold">About SFI</Card.Title>
               <Card.Text>
-              SFI is the goverence token of Socket.Finance. No presale. No premine. 
+              SFI is the governance token of Socket.Finance. No presale. No premine. 
               </Card.Text>
               <Card.Text>
               Token Contract: <a href="https://etherscan.io/token/0x1E15abF152067e9Fe4A48bbf094A71f5bB16325D">0x1E15abF152067e9Fe4A48bbf094A71f5bB16325D</a>

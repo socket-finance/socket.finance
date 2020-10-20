@@ -256,6 +256,39 @@ export const getPoolAPY = async (provider: provider): Promise<PoolAPY | null> =>
   }
 }
 
+export const getTotalValueLocked = async (provider: provider, coinGecko: any): Promise<number> => {
+  if (provider && coinGecko) {
+    try {
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: WETH_TOKEN_ADDRESS,
+        vs_currencies: "usd",
+      })
+
+      const wethPoolContract = getPoolContract(provider, WETH_POOL_ADDRESS)
+      const sfiPoolContract = getPoolContract(provider, SFI_POOL_ADDRESS)
+
+      const sfiTokenContract = getERC20Contract(provider, SFI_TOKEN_ADDRESS)
+      const wethContract = getERC20Contract(provider, WETH_TOKEN_ADDRESS)
+
+      const totalSFIInUniswap = (await sfiTokenContract.methods.balanceOf(ETH_SFI_UNI_LP_TOKEN_ADDRESS).call()) / 1e18
+      const totalWETHInUniswap = (await wethContract.methods.balanceOf(ETH_SFI_UNI_LP_TOKEN_ADDRESS).call()) / 1e18
+      const totalWETHStaked = (await wethPoolContract.methods.totalSupply().call()) / 1e18
+      const totalSFIStaked = (await sfiPoolContract.methods.totalSupply().call()) / 1e18
+
+      const totalValueLockedInUniswap = totalWETHInUniswap * 2 * data[WETH_TOKEN_ADDRESS].usd
+      const totalValueLockedInWETHPool = totalWETHStaked * data[WETH_TOKEN_ADDRESS].usd
+      const totalValueLockedInSFIPool = totalSFIStaked * totalWETHInUniswap / totalSFIInUniswap * data[WETH_TOKEN_ADDRESS].usd
+
+      return totalValueLockedInUniswap + totalValueLockedInWETHPool + totalValueLockedInSFIPool
+    } catch (e) {
+      console.log(e)
+      return 0
+    }
+  } else {
+    return 0
+  }
+}
+
 export const bnToDec = (bn: BigNumber, decimals = 18) => {
   return bn.dividedBy(new BigNumber(10).pow(decimals)).toNumber()
 }

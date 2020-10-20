@@ -4,13 +4,16 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import StakeCard from '../components/stakeCard'
+import Spinner from 'react-bootstrap/Spinner'
 import { usePoolStats } from '../hooks/usePoolStats'
 import { usePoolAPY } from '../hooks/usePoolAPY'
+import { useTotalValueLocked } from '../hooks/useTotalValueLocked'
 
 export default function Stake() {
 
   const pools = usePoolStats()
   const poolAPY = usePoolAPY()
+  const totalValueLocked = useTotalValueLocked()
 
   return (
     <Container className="sfi-container">
@@ -41,8 +44,15 @@ export default function Stake() {
         <Col xs lg="3">
           <span className="text-white font-weight-bold">Participating pools</span>
         </Col>
-        <Col xs lg="3" className="text-right">
-        {/* <span className="text-white">TVL: -</span> */}
+        <Col xs lg="3" className="text-right text-white">
+          {totalValueLocked ?
+            <>
+              <span>TVL: {Number(totalValueLocked.toFixed(2)).toLocaleString()}</span>
+              <span> </span>
+              <span className="small">USD</span>
+            </> :
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+          }
         </Col>
       </Row>
 
