@@ -289,6 +289,68 @@ export const getTotalValueLocked = async (provider: provider, coinGecko: any): P
   }
 }
 
+export const getCirculatingSupply = async (provider: provider): Promise<number> => {
+  if (provider) {
+    try {
+      const sfiTokenContract = getERC20Contract(provider, SFI_TOKEN_ADDRESS)
+
+      const ethSFIPoolContract = getPoolContract(provider, ETH_SFI_UNI_LP_POOL_ADDRESS)
+      const sfiPoolContract = getPoolContract(provider, SFI_POOL_ADDRESS)
+      const wethPoolContract = getPoolContract(provider, WETH_POOL_ADDRESS)
+
+      const totalSFIMinted = (await sfiTokenContract.methods.totalSupply().call()) / 1e18 - 1500
+
+      const ethSFIPoolRewardRate = await ethSFIPoolContract.methods.rewardRate().call() / 1e18
+      const sfiPoolRewardRate = await sfiPoolContract.methods.rewardRate().call() / 1e18
+      const wethPoolRewardRate = await wethPoolContract.methods.rewardRate().call() / 1e18
+
+      const ethSFIPeriodFinish = await ethSFIPoolContract.methods.periodFinish().call()
+      const sfiPoolPeriodFinish = await sfiPoolContract.methods.periodFinish().call()
+      const wethPoolPeriodFinish = await wethPoolContract.methods.periodFinish().call()
+
+      const currentTimestamp = new Date().getTime() / 1000 
+
+      const ethSFIPoolRemainAmount = currentTimestamp <= ethSFIPeriodFinish ? (ethSFIPeriodFinish - currentTimestamp) * ethSFIPoolRewardRate : 0
+      const sfiPoolRemainAmount = currentTimestamp <= sfiPoolPeriodFinish ? (sfiPoolPeriodFinish - currentTimestamp) * sfiPoolRewardRate : 0
+      const wethPoolRemainAmount = currentTimestamp <= wethPoolPeriodFinish ? (wethPoolPeriodFinish - currentTimestamp) * wethPoolRewardRate : 0
+
+      const ethSFIPoolDevFund = await ethSFIPoolContract.methods.devWithdrawnAmt().call() / 1e18
+      const wethPoolDevFund = await wethPoolContract.methods.devWithdrawnAmt().call() / 1e18
+      const sfiPoolDevFund = await sfiPoolContract.methods.devWithdrawnAmt().call() / 1e18
+
+      return totalSFIMinted - ethSFIPoolRemainAmount - sfiPoolRemainAmount - wethPoolRemainAmount + ethSFIPoolDevFund + wethPoolDevFund + sfiPoolDevFund
+    } catch (e) {
+      console.log(e)
+      return 0
+    }
+  } else {
+    return 0
+  }
+}
+
+export const getSFIPrice = async (provider: provider, coinGecko: any) : Promise<number> => {
+  if (provider && coinGecko) {
+    try {
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: WETH_TOKEN_ADDRESS,
+        vs_currencies: "usd",
+      })
+      const sfiTokenContract = getERC20Contract(provider, SFI_TOKEN_ADDRESS)
+      const wethContract = getERC20Contract(provider, WETH_TOKEN_ADDRESS)
+
+      const totalSFIInUniswap = (await sfiTokenContract.methods.balanceOf(ETH_SFI_UNI_LP_TOKEN_ADDRESS).call()) / 1e18
+      const totalWETHInUniswap = (await wethContract.methods.balanceOf(ETH_SFI_UNI_LP_TOKEN_ADDRESS).call()) / 1e18
+
+      return totalWETHInUniswap / totalSFIInUniswap * data[WETH_TOKEN_ADDRESS].usd
+    } catch (e) {
+      console.log(e)
+      return 0
+    }
+  } else {
+    return 0
+  }
+}
+
 export const bnToDec = (bn: BigNumber, decimals = 18) => {
   return bn.dividedBy(new BigNumber(10).pow(decimals)).toNumber()
 }
