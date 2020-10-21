@@ -30,10 +30,10 @@ export default function Stake() {
               </Card.Text>
               <Card.Text className="text-white-70 small">
               Dev keys of all 4 contracts have been burnt:
-              <li><a href="https://etherscan.io/tx/0x77f5ed0004a5035f72cedf5eca97f299359330841557867fbd70cac2dc6779eb">[SFI Token]</a></li>
-              <li><a href="https://etherscan.io/tx/0x30c83fe40f60a21980a1c2774f83f01f3fd7d49ff0d03af798335fb8e8430e89">[WETH Pool]</a></li>
-              <li><a href="https://etherscan.io/tx/0x91678145bffe95b6edc4f55282af250c7d02df849588a7fe91b8f20c3a91374a">[SFI Pool]</a></li>
-              <li><a href="https://etherscan.io/tx/0x4015ddeb432b63cdcebbec7a418ab9f2224a7dfa7702559f965edd801adb05e9">[ETH-SFI Pool]</a></li>
+              <li><a target="_blank" href="https://etherscan.io/tx/0x77f5ed0004a5035f72cedf5eca97f299359330841557867fbd70cac2dc6779eb">[SFI Token]</a></li>
+              <li><a target="_blank" href="https://etherscan.io/tx/0x30c83fe40f60a21980a1c2774f83f01f3fd7d49ff0d03af798335fb8e8430e89">[WETH Pool]</a></li>
+              <li><a target="_blank" href="https://etherscan.io/tx/0x91678145bffe95b6edc4f55282af250c7d02df849588a7fe91b8f20c3a91374a">[SFI Pool]</a></li>
+              <li><a target="_blank" href="https://etherscan.io/tx/0x4015ddeb432b63cdcebbec7a418ab9f2224a7dfa7702559f965edd801adb05e9">[ETH-SFI Pool]</a></li>
               </Card.Text>
             </Card.Body>
           </Card>
