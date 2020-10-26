@@ -17,7 +17,7 @@ export default function VaultsLite() {
                 Coming soon...
               </Card.Text>
               <Card.Text className="text-white-70">
-                Vaults Lite is a project within SFI ecosystem that introduces a deflationary farming coin - SOCKET. Read <a href="https://socketfinance.medium.com/socket-coin-deflationary-farming-experiment-b44c5bb0c049">Socket Coin — Deflationary Farming Experiment</a> to learn more.
+                Vaults Lite is a project within the SFI ecosystem that introduces a deflationary farming coin - SOCKET. Read <a href="https://socketfinance.medium.com/socket-coin-deflationary-farming-experiment-b44c5bb0c049">Socket Coin — Deflationary Farming Experiment</a> to learn more.
               </Card.Text>
             </Card.Body>
           </Card>
