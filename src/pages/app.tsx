@@ -9,6 +9,7 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 import Home from './home'
 import Stake from './stake'
+import VaultsLite from './vaultsLite'
 import Pool from './pool'
 import About from './about'
 
@@ -23,6 +24,7 @@ export default function App() {
             <Route exact strict path="/home" component={Home} />
             <Route exact strict path="/stake" component={Stake} />
             <Route exact strict path="/stake/:id" component={Pool} />
+            <Route exact strict path="/vaultslite" component={VaultsLite} />
             <Route exact strict path="/about" component={About} />
           </Switch>
         </HashRouter>

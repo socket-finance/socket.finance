@@ -22,6 +22,7 @@ export default function Header() {
         <Nav className="mr-auto">
           <Nav.Link href="#home">Home</Nav.Link>
           <Nav.Link href="#stake">Stake</Nav.Link>
+          <Nav.Link href="#vaultslite">Vaults Lite</Nav.Link>
           <Nav.Link href="#about">About</Nav.Link>
         </Nav>
         <Nav><ConnectWallet/></Nav>
