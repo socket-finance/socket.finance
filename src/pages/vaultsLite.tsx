@@ -13,11 +13,11 @@ export default function VaultsLite() {
           <Card text={"white"} className="rounded-lg border-dark bg-transparent"> 
             <Card.Body>
               <Card.Title className="text-white-75 font-weight-bold">Vaults Lite</Card.Title>
-              <Card.Text className="text-white-70 small">
+              <Card.Text className="text-white-70">
                 Coming soon...
               </Card.Text>
-              <Card.Text className="text-white-70 small">
-                Vaults Lite is our next project which have core-like mechanism. Read <a href="https://socketfinance.medium.com/socket-coin-deflationary-farming-experiment-b44c5bb0c049">Socket Coin — Deflationary Farming Experiment</a> to learn more.
+              <Card.Text className="text-white-70">
+                Vaults Lite is our next project which will introduce a Deflationary farming coin - SOCKET. Read <a href="https://socketfinance.medium.com/socket-coin-deflationary-farming-experiment-b44c5bb0c049">Socket Coin — Deflationary Farming Experiment</a> to learn more.
               </Card.Text>
             </Card.Body>
           </Card>
