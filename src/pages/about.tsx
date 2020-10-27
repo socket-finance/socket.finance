@@ -27,10 +27,13 @@ export default function About() {
             <Card.Body>
               <Card.Title className="h1 sfi-bg-color-linear sfi-bg-color-linear-text font-weight-bold">About Socket Finance</Card.Title>
               <Card.Text>
-              Socket Finance is an experiment in DeFi world. It is a suite of decentralized finance (DeFi) products focused on creating a simple way to generate returns for our users. Future projects will involve Vaults, Swap, NFT, etc.
+              Socket Finance is a unique experiment in the world of DeFi. It is a suite of decentralized finance (DeFi) products, designed to generate returns for the ecosystem's participants. Vaults Lite is currently under development, and future products include Vaults, Swap and NFT.
               </Card.Text>
               <Card.Text>
-              Socket Finance won't be another fork, we will focus on developing products by ourself. Meanwhile your voices and requirements will decide our roadmap. Join us on <a target="_blank" href="https://discord.gg/qEYfJK2">Discord</a> and <a target="_blank" href="https://t.me/SocketFinanceOfficial">Telegram</a> for discussing.
+              We are not interested in being just another fork. We will use Socket Finance as a medium to innovate and help drive the DeFi space forward. 
+              </Card.Text>
+              <Card.Text>
+              The community is an integral component of our future roadmap - Join the conversation on <a target="_blank" href="https://discord.gg/qEYfJK2">Discord</a> and <a target="_blank" href="https://t.me/SocketFinanceOfficial">Telegram</a>.
               </Card.Text>
             </Card.Body>
           </Card>
