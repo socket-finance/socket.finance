@@ -313,10 +313,10 @@ export default function SocketLGE({lgeStats}) {
           <Card text={"white"} className="rounded-lg border-dark" bg={"transparent"}>
             <Card.Body>
               <Card.Text>
-                <span>LGE will end in </span>
+                <span>LGE will finish in </span>
                 {lgeStats?.secondsLeftInLiquidityGenerationEvent != undefined ?
                   <>
-                    <span className="font-weight-bold">{lgeStats?.secondsLeftInLiquidityGenerationEvent > 0 ? secondsToDhms(lgeStats?.secondsLeftInLiquidityGenerationEvent) : "0 minutes"} (End early if necessary)</span>
+                    <span className="font-weight-bold">{lgeStats?.secondsLeftInLiquidityGenerationEvent > 0 ? secondsToDhms(lgeStats?.secondsLeftInLiquidityGenerationEvent) : "0 minutes"} (But it might end earlier if necessary)</span>
                   </> :
                   <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
                 }
