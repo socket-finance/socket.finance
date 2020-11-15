@@ -346,7 +346,7 @@ export default function SocketLGE({lgeStats}) {
                   <Col xs="6" className="text-right text-white">
                     {lgeStats?.totalSFIContributed ?
                       <>
-                        <span className="font-weight-bold">{lgeStats?.totalSFIContributed} SFI</span>
+                        <span className="font-weight-bold">{lgeStats?.totalSFIContributed.toFixed(4)} SFI</span>
                       </> :
                       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
                     }
