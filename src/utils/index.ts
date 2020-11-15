@@ -6,13 +6,16 @@ import { ethers } from "ethers"
 import BN from "bignumber.js"
 import ERC20ABI from '../constants/abi/ERC20.json'
 import POOLABI from '../constants/abi/stakePool.json'
+import SOCKETLGEABI from '../constants/abi/socketLGE.json'
+import VAULTSLITEABI from '../constants/abi/vaultsLite.json'
 import {
   SFI_TOKEN_ADDRESS,
   WETH_TOKEN_ADDRESS,
   ETH_SFI_UNI_LP_TOKEN_ADDRESS,
   WETH_POOL_ADDRESS,
   SFI_POOL_ADDRESS,
-  ETH_SFI_UNI_LP_POOL_ADDRESS
+  ETH_SFI_UNI_LP_POOL_ADDRESS,
+  SOCKET_LGE_ADDRESS,
 } from '../constants/tokenAddresses'
 
 export const getERC20Contract = (provider: provider, address: string) => {
@@ -25,6 +28,24 @@ export const getPoolContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider)
   const contract = new web3.eth.Contract(
     (POOLABI as unknown) as AbiItem,
+    address
+  )
+  return contract
+}
+
+export const getSocketLGEContract = (provider: provider, address: string) => {
+  const web3 = new Web3(provider)
+  const contract = new web3.eth.Contract(
+    (SOCKETLGEABI as unknown) as AbiItem,
+    address
+  )
+  return contract
+}
+
+export const getVaultsLiteContract = (provider: provider, address: string) => {
+  const web3 = new Web3(provider)
+  const contract = new web3.eth.Contract(
+    (VAULTSLITEABI as unknown) as AbiItem,
     address
   )
   return contract
@@ -351,6 +372,143 @@ export const getSFIPrice = async (provider: provider, coinGecko: any) : Promise<
   }
 }
 
+interface SocketLGEStats {
+  liquidityGenerationOngoing: boolean
+  totalETHContributed: number
+  totalSFIContributed: number
+  socketPriceEstimateAfterLGE: number
+  socketMarketCapEstimateAfterLGE: number
+  userETHContributed: number
+  userSFIContributed: number
+  lgeParticipationAgreement: string
+  secondsLeftInLiquidityGenerationEvent: number
+  lpPerETHUnit: number
+  lpPerSFIUnit: number
+}
+
+export const getSOCKETLGEStats = async (provider: provider, coinGecko: any, account: string | null) : Promise<SocketLGEStats | null> => {
+  if (provider && coinGecko && account) {
+    try {
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [WETH_TOKEN_ADDRESS, SFI_TOKEN_ADDRESS],
+        vs_currencies: "usd",
+      })
+
+      const socketLGEContract = getSocketLGEContract(provider, SOCKET_LGE_ADDRESS)
+
+      const liquidityGenerationOngoing = await socketLGEContract.methods.liquidityGenerationOngoing().call()
+      const totalETHContributed = await socketLGEContract.methods.totalETHContributed().call() / 1e18
+      const totalSFIContributed = await socketLGEContract.methods.totalSFIContributed().call() / 1e18
+      const userETHContributed = await socketLGEContract.methods.ethContributed(account).call() / 1e18
+      const userSFIContributed = await socketLGEContract.methods.sfiContributed(account).call() / 1e18
+      const lgeParticipationAgreement = await socketLGEContract.methods.liquidityGenerationParticipationAgreement().call()
+      const socketPriceEstimateAfterLGE = (totalETHContributed * data[WETH_TOKEN_ADDRESS].usd + totalSFIContributed * data[SFI_TOKEN_ADDRESS].usd) / 10000
+      const socketMarketCapEstimateAfterLGE = socketPriceEstimateAfterLGE * 10000
+      const lpPerETHUnit = await socketLGEContract.methods.LPperETHUnit().call() / 1e18
+      const lpPerSFIUnit = await socketLGEContract.methods.LPperSFIUnit().call() / 1e18
+
+      let secondsLeftInLiquidityGenerationEvent
+      try {
+        secondsLeftInLiquidityGenerationEvent = await socketLGEContract.methods.getSecondsLeftInLiquidityGenerationEvent().call()
+      } catch (e) {
+        secondsLeftInLiquidityGenerationEvent = 0
+      }
+
+      return {
+        liquidityGenerationOngoing,
+        totalETHContributed,
+        totalSFIContributed,
+        socketPriceEstimateAfterLGE,
+        socketMarketCapEstimateAfterLGE,
+        userETHContributed,
+        userSFIContributed,
+        lgeParticipationAgreement,
+        secondsLeftInLiquidityGenerationEvent,
+        lpPerETHUnit,
+        lpPerSFIUnit
+      }
+    } catch (e) {
+      console.log(e)
+      return null
+    }
+  } else {
+    return null
+  }
+}
+
+export const contributeETHForSocketLGE = async (
+  provider: provider,
+  amount: string,
+  account: string
+) => {
+  const socketLGEContract = getSocketLGEContract(provider, SOCKET_LGE_ADDRESS)
+  const web3 = new Web3(provider)
+  const tokens = web3.utils.toWei(amount.toString(), "ether")
+  const bntokens = web3.utils.toBN(tokens)
+  return socketLGEContract.methods
+    .addLiquidity(true)
+    .send({ from: account, value: bntokens})
+    .on("transactionHash", (tx) => {
+      console.log(tx)
+      return tx.transactionHash
+    })
+}
+
+
+export const contributeSFIForSocketLGE = async (
+  provider: provider,
+  amount: string,
+  account: string
+) => {
+  const socketLGEContract = getSocketLGEContract(provider, SOCKET_LGE_ADDRESS)
+  const web3 = new Web3(provider)
+  const tokens = web3.utils.toWei(amount.toString(), "ether")
+  const bntokens = web3.utils.toBN(tokens)
+  return socketLGEContract.methods
+    .addLiquidityForSFI(true, bntokens)
+    .send({ from: account})
+    .on("transactionHash", (tx) => {
+      console.log(tx)
+      return tx.transactionHash
+    })
+}
+
+export const claimETHxSOCKETLPToken = async (
+  provider: provider,
+  account: string | null
+) => {
+  try {
+    const socketLGEContract = getSocketLGEContract(provider, SOCKET_LGE_ADDRESS)
+    return socketLGEContract.methods
+      .claimLPTokens()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx)
+        return tx.transactionHash
+      })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const claimSFIxSOCKETLPToken = async (
+  provider: provider,
+  account: string | null
+) => {
+  try {
+    const socketLGEContract = getSocketLGEContract(provider, SOCKET_LGE_ADDRESS)
+    return socketLGEContract.methods
+      .claimLPTokensForSFI()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx)
+        return tx.transactionHash
+      })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export const bnToDec = (bn: BigNumber, decimals = 18) => {
   return bn.dividedBy(new BigNumber(10).pow(decimals)).toNumber()
 }
@@ -369,4 +527,19 @@ export const getFullDisplayBalance = (balance: BigNumber, format = 4, decimals =
 
 export const getFormattedDate = (timestamp: BigNumber) => {
   return new Date(Number(timestamp.toFixed()) * 1000).toLocaleString()
+}
+
+export const secondsToDhms = (seconds: number) => {
+  seconds = Number(seconds);
+  var d = Math.floor(seconds / (3600*24));
+  var h = Math.floor(seconds % (3600*24) / 3600);
+  var m = Math.floor(seconds % 3600 / 60);
+  //var s = Math.floor(seconds % 60);
+  
+  var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+  var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+  var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes") : "";
+  //var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+  //var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+  return dDisplay + hDisplay + mDisplay;
 }
