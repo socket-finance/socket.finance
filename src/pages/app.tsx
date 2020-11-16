@@ -12,6 +12,7 @@ import Stake from './stake'
 import VaultsLite from './vaultsLite'
 import Pool from './pool'
 import About from './about'
+import VaultsLitePool from './vaultsLitePool'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route exact strict path="/stake" component={Stake} />
             <Route exact strict path="/stake/:id" component={Pool} />
             <Route exact strict path="/vaultslite" component={VaultsLite} />
+            <Route exact strict path="/vaultslite/:path" component={VaultsLitePool} />
             <Route exact strict path="/about" component={About} />
           </Switch>
         </HashRouter>

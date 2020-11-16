@@ -8,6 +8,7 @@ import ERC20ABI from '../constants/abi/ERC20.json'
 import POOLABI from '../constants/abi/stakePool.json'
 import SOCKETLGEABI from '../constants/abi/socketLGE.json'
 import VAULTSLITEABI from '../constants/abi/vaultsLite.json'
+import NBUNIERC20ABI from '../constants/abi/NBUNIERC20.json'
 import {
   SFI_TOKEN_ADDRESS,
   WETH_TOKEN_ADDRESS,
@@ -16,11 +17,25 @@ import {
   SFI_POOL_ADDRESS,
   ETH_SFI_UNI_LP_POOL_ADDRESS,
   SOCKET_LGE_ADDRESS,
+  SOCKET_TOKEN_ADDRESS,
+  VAULTS_LITE_ADDRESS,
 } from '../constants/tokenAddresses'
+import {
+  SOCKET_VAULTS_LITE_TOTAL_POINT
+} from '../constants/socketFarmPool'
 
 export const getERC20Contract = (provider: provider, address: string) => {
   const web3 = new Web3(provider)
   const contract = new web3.eth.Contract(ERC20ABI.abi as unknown as AbiItem, address)
+  return contract
+}
+
+export const getNBUNIERC20Contract = (provider: provider, address: string) => {
+  const web3 = new Web3(provider)
+  const contract = new web3.eth.Contract(
+    (NBUNIERC20ABI as unknown) as AbiItem,
+    address
+  )
   return contract
 }
 
@@ -499,6 +514,118 @@ export const claimSFIxSOCKETLPToken = async (
     const socketLGEContract = getSocketLGEContract(provider, SOCKET_LGE_ADDRESS)
     return socketLGEContract.methods
       .claimLPTokensForSFI()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx)
+        return tx.transactionHash
+      })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+interface VaultsLiteStats {
+  totalLPStaked: number
+  userLPStaked: BN
+  poolAPY: number
+  userClaimableSOCKET: number
+}
+
+export const getSocketVaultsLiteStats = async (provider: provider, pid: number, account: string | null) : Promise<VaultsLiteStats | null> => {
+  if (provider && pid != undefined && account) {
+    try {
+      const socketTokenContract = getNBUNIERC20Contract(provider, SOCKET_TOKEN_ADDRESS)
+      const vaultsLiteContract = getVaultsLiteContract(provider, VAULTS_LITE_ADDRESS)
+
+      const poolInfo = await vaultsLiteContract.methods.poolInfo(pid).call()
+      const lpTokenContract = getERC20Contract(provider, poolInfo.token)
+
+      const epochCalculationStartBlock = await vaultsLiteContract.methods.epochCalculationStartBlock().call()
+
+      const web3 = new Web3(provider)
+      const block = web3.eth.getBlock(epochCalculationStartBlock)
+      const epochCalculationStartTimestap = Number((await block).timestamp)
+
+      const rewardsInThisEpoch = await vaultsLiteContract.methods.rewardsInThisEpoch().call() / 1e18
+
+      const totalLPSupply = await lpTokenContract.methods.totalSupply().call() / 1e18
+      const totalLPStaked = await lpTokenContract.methods.balanceOf(VAULTS_LITE_ADDRESS).call() / 1e18
+      const totalSOCKETInUniswap = (await socketTokenContract.methods.balanceOf(poolInfo.token).call()) / 1e18
+
+      const userLPStaked = (await vaultsLiteContract.methods.userInfo(pid, account).call()).amount
+
+      const totalRewardFullYear = rewardsInThisEpoch / ((Date.now() / 1000) - Number(epochCalculationStartTimestap)) * 24 * 3600 * 365
+
+      const poolAPY = totalRewardFullYear * Number(poolInfo.allocPoint) / SOCKET_VAULTS_LITE_TOTAL_POINT / ((totalLPStaked / totalLPSupply) * totalSOCKETInUniswap * 2)
+
+      const userClaimableSOCKET = await vaultsLiteContract.methods.pendingSocket(pid, account).call() / 1e18
+
+      return {
+        totalLPStaked,
+        userLPStaked,
+        poolAPY,
+        userClaimableSOCKET
+      }
+    } catch (e) {
+      console.log(e)
+      return null
+    }
+  } else {
+    return null
+  }
+}
+
+export const vaultsLiteClaim = async (
+  provider: provider,
+  pid: number,
+  account: string | null
+) => {
+  try {
+    const vaultsLiteContract = getVaultsLiteContract(provider, VAULTS_LITE_ADDRESS)
+    return vaultsLiteContract.methods
+      .getReward(pid)
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx)
+        return tx.transactionHash
+      })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const vaultsLiteStake = async (
+  provider: provider,
+  pid: number,
+  amount: string,
+  account: string
+) => {
+  const vaultsLiteContract = getVaultsLiteContract(provider, VAULTS_LITE_ADDRESS)
+  const web3 = new Web3(provider)
+  const tokens = web3.utils.toWei(amount.toString(), "ether")
+  const bntokens = web3.utils.toBN(tokens)
+  return vaultsLiteContract.methods
+    .deposit(pid, bntokens)
+    .send({ from: account })
+    .on("transactionHash", (tx) => {
+      console.log(tx)
+      return tx.transactionHash
+    })
+}
+
+export const vaultsLiteUnStake = async (
+  provider: provider,
+  pid: number,
+  amount: string,
+  account: string
+) => {
+  try {
+    const vaultsLiteContract = getVaultsLiteContract(provider, VAULTS_LITE_ADDRESS)
+    const web3 = new Web3(provider)
+    const tokens = web3.utils.toWei(amount.toString(), "ether")
+    const bntokens = web3.utils.toBN(tokens)
+    return vaultsLiteContract.methods
+      .withdraw(pid, bntokens)
       .send({ from: account })
       .on("transactionHash", (tx) => {
         console.log(tx)

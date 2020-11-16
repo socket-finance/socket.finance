@@ -6,11 +6,14 @@ import Card from 'react-bootstrap/Card'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import SocketLGE from '../components/socketLGE'
+import SocketFarmCard from '../components/socketFarmCard'
 import { useLGEStats } from '../hooks/socket/useLGEStats'
+import { useVaultsLiteStats } from '../hooks/socket/useVaultsLiteStats'
 
 export default function VaultsLite() {
 
   const lgeStats = useLGEStats()
+  const vaultsLiteStats = useVaultsLiteStats()
 
   return (
     <Container className="sfi-container">
@@ -34,6 +37,15 @@ export default function VaultsLite() {
               {lgeStats && <SocketLGE lgeStats={lgeStats}/>}
             </Tab>
             <Tab eventKey="farm" title="Farm" disabled>
+              {vaultsLiteStats && vaultsLiteStats.map((pool, e) => {
+                return (
+                  <Row className="justify-content-md-center pt-4">
+                    <Col xs lg="12">
+                      <SocketFarmCard pool={pool} />
+                    </Col>
+                  </Row>
+                )})
+              }
             </Tab>
           </Tabs>
         </Col>
