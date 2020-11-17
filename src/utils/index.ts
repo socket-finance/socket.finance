@@ -399,6 +399,7 @@ interface SocketLGEStats {
   secondsLeftInLiquidityGenerationEvent: number
   lpPerETHUnit: number
   lpPerSFIUnit: number
+  socketForSFIAllocate: number
 }
 
 export const getSOCKETLGEStats = async (provider: provider, coinGecko: any, account: string | null) : Promise<SocketLGEStats | null> => {
@@ -421,6 +422,7 @@ export const getSOCKETLGEStats = async (provider: provider, coinGecko: any, acco
       const socketMarketCapEstimateAfterLGE = socketPriceEstimateAfterLGE * 10000
       const lpPerETHUnit = await socketLGEContract.methods.LPperETHUnit().call() / 1e18
       const lpPerSFIUnit = await socketLGEContract.methods.LPperSFIUnit().call() / 1e18
+      const socketForSFIAllocate = await socketLGEContract.methods.calculateSFIAllocate().call() / 1e18
 
       let secondsLeftInLiquidityGenerationEvent
       try {
@@ -440,7 +442,8 @@ export const getSOCKETLGEStats = async (provider: provider, coinGecko: any, acco
         lgeParticipationAgreement,
         secondsLeftInLiquidityGenerationEvent,
         lpPerETHUnit,
-        lpPerSFIUnit
+        lpPerSFIUnit,
+        socketForSFIAllocate
       }
     } catch (e) {
       console.log(e)

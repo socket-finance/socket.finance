@@ -20,6 +20,7 @@ export interface ISocketLGEStats {
   secondsLeftInLiquidityGenerationEvent: number | undefined
   lpPerETHUnit: number | undefined
   lpPerSFIUnit: number | undefined
+  socketForSFIAllocate: number | undefined
 }
 
 export const useLGEStats = () => {  
@@ -50,6 +51,7 @@ export const useLGEStats = () => {
         secondsLeftInLiquidityGenerationEvent: _lgeStats?.secondsLeftInLiquidityGenerationEvent,
         lpPerETHUnit: _lgeStats?.lpPerETHUnit,
         lpPerSFIUnit: _lgeStats?.lpPerSFIUnit,
+        socketForSFIAllocate: _lgeStats?.socketForSFIAllocate,
       }
     }
 

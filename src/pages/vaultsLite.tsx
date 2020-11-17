@@ -23,7 +23,10 @@ export default function VaultsLite() {
             <Card.Body>
               <Card.Title className="text-white-75 font-weight-bold">Vaults Lite</Card.Title>
               <Card.Text className="text-white-70">
-                Vaults Lite is a project within the SFI ecosystem that introduces a deflationary farming coin - SOCKET. Read <a target="_blank" href="https://socketfinance.medium.com/socket-coin-deflationary-farming-experiment-b44c5bb0c049">Socket Coin — Deflationary Farming Experiment</a> to learn more.
+                Vaults Lite is a project within the SFI ecosystem that introduces a deflationary farming coin - SOCKET.
+              </Card.Text>
+              <Card.Text className="text-white-70">
+                <li><a href="https://socketfinance.medium.com/socket-tokenomics-20ee68b600f8">SOCKET Tokenomics</a></li>
               </Card.Text>
             </Card.Body>
           </Card>

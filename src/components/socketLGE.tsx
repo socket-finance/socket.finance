@@ -386,6 +386,55 @@ export default function SocketLGE({lgeStats}) {
                 </Row>
               </Card.Text>
 
+
+              {account && lgeStats?.liquidityGenerationOngoing && lgeStats?.secondsLeftInLiquidityGenerationEvent && <Card.Text>
+                <Row>
+                  <Col xs="12">
+                    <span>ETH-SOCKET Pool estimate after LGE: </span>
+                  </Col>
+                  <Col xs="6" className="text-center text-white">
+                    {lgeStats?.totalETHContributed ?
+                      <>
+                        <span className="font-weight-bold">{lgeStats?.totalETHContributed.toFixed(4)} ETH</span>
+                      </> :
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                    }
+                  </Col>
+                  <Col xs="6" className="text-center text-white">
+                    {lgeStats?.socketForSFIAllocate != undefined ?
+                      <>
+                        <span className="font-weight-bold">{10000 - lgeStats?.socketForSFIAllocate.toFixed(4)} SOCKET</span>
+                      </> :
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                    }
+                  </Col>
+                </Row>
+              </Card.Text>}
+
+              {account && lgeStats?.liquidityGenerationOngoing && lgeStats?.secondsLeftInLiquidityGenerationEvent && <Card.Text>
+                <Row>
+                  <Col xs="12">
+                    <span>SFI-SOCKET Pool estimate after LGE: </span>
+                  </Col>
+                  <Col xs="6" className="text-center text-white">
+                    {lgeStats?.totalSFIContributed ?
+                      <>
+                        <span className="font-weight-bold">{lgeStats?.totalSFIContributed.toFixed(4)} SFI</span>
+                      </> :
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                    }
+                  </Col>
+                  <Col xs="6" className="text-center text-white">
+                    {lgeStats?.socketForSFIAllocate != undefined ?
+                      <>
+                        <span className="font-weight-bold">{lgeStats?.socketForSFIAllocate.toFixed(4)} SOCKET</span>
+                      </> :
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                    }
+                  </Col>
+                </Row>
+              </Card.Text>}
+
               <Card.Text>
                 <Row>
                   <Col xs="8">
