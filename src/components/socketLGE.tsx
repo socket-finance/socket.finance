@@ -316,7 +316,7 @@ export default function SocketLGE({lgeStats}) {
                 <span>LGE will finish in </span>
                 {lgeStats?.secondsLeftInLiquidityGenerationEvent != undefined ?
                   <>
-                    <span className="font-weight-bold">{lgeStats?.secondsLeftInLiquidityGenerationEvent > 0 ? secondsToDhms(lgeStats?.secondsLeftInLiquidityGenerationEvent) : "0 minutes"} (But it might end earlier if necessary)</span>
+                    <span className="font-weight-bold">{(1605783699 - new Date().getTime() / 1000) > 0 ? secondsToDhms(1605783699 - new Date().getTime() / 1000) : "0 minutes"}</span>
                   </> :
                   <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
                 }
