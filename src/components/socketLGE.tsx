@@ -403,7 +403,7 @@ export default function SocketLGE({lgeStats}) {
                   <Col xs="6" className="text-center text-white">
                     {lgeStats?.socketForSFIAllocate != undefined ?
                       <>
-                        <span className="font-weight-bold">{10000 - lgeStats?.socketForSFIAllocate.toFixed(4)} SOCKET</span>
+                        <span className="font-weight-bold">{(10000 - lgeStats?.socketForSFIAllocate).toFixed(4)} SOCKET</span>
                       </> :
                       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
                     }
