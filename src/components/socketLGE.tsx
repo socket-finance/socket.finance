@@ -263,7 +263,7 @@ export default function SocketLGE({lgeStats}) {
           <Card.Body>
             <Card.Title className="small">Your unclaimed ETH x SOCKET LP token</Card.Title>
             <div className="text-center p-2">
-              {lgeStats?.lpPerETHUnit * lgeStats?.userETHContributed ?
+              {lgeStats?.lpPerETHUnit * lgeStats?.userETHContributed >= 0 ?
                 <span className="h3">{(lgeStats?.lpPerETHUnit * lgeStats?.userETHContributed).toFixed(4)}</span> :
                 <Spinner as="span" animation="border" role="status" aria-hidden="true" />
               }
@@ -288,7 +288,7 @@ export default function SocketLGE({lgeStats}) {
           <Card.Body>
             <Card.Title className="small">Your unclaimed SFI x SOCKET LP token</Card.Title>
             <div className="text-center p-2">
-              {lgeStats?.lpPerSFIUnit * lgeStats?.userSFIContributed ?
+              {lgeStats?.lpPerSFIUnit * lgeStats?.userSFIContributed >= 0 ?
                 <span className="h3">{(lgeStats?.lpPerSFIUnit * lgeStats?.userSFIContributed).toFixed(4)}</span> :
                 <Spinner as="span" animation="border" role="status" aria-hidden="true" />
               }

@@ -39,7 +39,7 @@ export default function VaultsLite() {
             <Tab eventKey="lge" title="Liquidity Generation Event">
               {lgeStats && <SocketLGE lgeStats={lgeStats}/>}
             </Tab>
-            <Tab eventKey="farm" title="Farm" disabled>
+            <Tab eventKey="farm" title="Farm">
               {vaultsLiteStats && vaultsLiteStats.map((pool, e) => {
                 return (
                   <Row className="justify-content-md-center pt-4">
