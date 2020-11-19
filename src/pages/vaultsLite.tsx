@@ -26,7 +26,9 @@ export default function VaultsLite() {
                 Vaults Lite is a project within the SFI ecosystem that introduces a deflationary farming coin - SOCKET.
               </Card.Text>
               <Card.Text className="text-white-70">
-                <li><a href="https://socketfinance.medium.com/socket-tokenomics-20ee68b600f8">SOCKET Tokenomics</a></li>
+                <li><a target="_blank" href="https://socketfinance.medium.com/socket-tokenomics-20ee68b600f8">SOCKET Tokenomics</a></li>
+                <li><a target="_blank" href="https://www.dextools.io/app/uniswap/pair-explorer/0x69e602c4163823a09393ceb6750eda5eaf924845">SOCKET dextools</a></li>
+                <li><a target="_blank" href="https://app.uniswap.org/#/swap?outputCurrency=0xa6312567e419e73951c451feaba07b6d74a0e8ce">Buy SOCKET</a></li>
               </Card.Text>
             </Card.Body>
           </Card>
@@ -35,7 +37,7 @@ export default function VaultsLite() {
 
       <Row className="justify-content-md-center mt-4">
         <Col xs lg="6">
-          <Tabs defaultActiveKey="lge" transition={false} id="noanim-tab-example">
+          <Tabs defaultActiveKey="farm" transition={false} id="noanim-tab-example">
             <Tab eventKey="lge" title="Liquidity Generation Event">
               {lgeStats && <SocketLGE lgeStats={lgeStats}/>}
             </Tab>
